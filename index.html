@@ -6,20 +6,22 @@
     <title>Payg'ambarimiz hayoti - 100 talik Quiz</title>
     <style>
         :root { --primary: #1a5d1a; --secondary: #f4bb44; --bg: #f0f2f5; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .container { background: white; width: 100%; max-width: 850px; margin: 20px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 10px solid var(--primary); }
-        .auth-form { max-width: 400px; margin: 20px auto; display: flex; flex-direction: column; gap: 10px; }
-        input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .auth-form { max-width: 400px; margin: 20px auto; display: flex; flex-direction: column; gap: 12px; }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        input:focus { border-color: var(--primary); }
         .quiz-header { display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .question { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 20px; min-height: 50px; }
-        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-        .option { padding: 15px; background: #fff; border: 2px solid #eee; border-radius: 10px; cursor: pointer; transition: 0.2s; text-align: center; font-size: 15px; }
-        .option:hover { border-color: var(--primary); background: #f0f9f0; }
+        .question { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 20px; min-height: 50px; line-height: 1.4; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+        .option { padding: 15px; background: #fff; border: 2px solid #eee; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: center; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+        .option:hover { border-color: var(--primary); background: #f0f9f0; transform: translateY(-2px); }
         .leaderboard-section { margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        .leaderboard th, .leaderboard td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        .leaderboard th, .leaderboard td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         .leaderboard th { background: var(--primary); color: white; }
-        button { padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button { padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #144614; opacity: 0.9; }
         .hidden { display: none; }
         @media (max-width: 600px) { .options { grid-template-columns: 1fr; } }
     </style>
@@ -28,11 +30,11 @@
 
 <div class="container">
     <div id="auth-box">
-        <h1 style="text-align:center; color: var(--primary);"> Quiz test</h1>
-        <p style="text-align:center">"Kitob bo'yicha test"  </p>
+        <h1 style="text-align:center; color: var(--primary);">Islomiy Quiz</h1>
+        <p style="text-align:center; color: #666;">"Suyukli payg'ambarim bilan 365 kun" kitobi asosida</p>
         <div class="auth-form">
             <input type="text" id="username" placeholder="Ismingizni kiriting...">
-            <input type="text" id="userclass" placeholder="Sinfingizni kiriting...">
+            <input type="text" id="userclass" placeholder="Sinfingizni kiriting (masalan: 6-A)...">
             <button onclick="startQuiz()">Testni boshlash</button>
         </div>
     </div>
@@ -50,7 +52,7 @@
             <table class="leaderboard" id="score-table">
                 <thead>
                     <tr>
-                        <th>O'rin</th>
+                        <th>#</th>
                         <th>Ism</th>
                         <th>Sinf</th>
                         <th>Ball</th>
@@ -63,10 +65,11 @@
     </div>
 
     <div id="result-box" class="hidden" style="text-align:center">
-        <h2>Natijangiz saqlandi!</h2>
-        <h1 id="final-score" style="color: var(--primary); font-size: 48px;">0</h1>
-        <p id="final-rank" style="font-size: 18px;"></p>
-        <button onclick="location.reload()" style="width: 100%">Bosh sahifaga qaytish</button>
+        <h2>Tabriklaymiz!</h2>
+        <p>Sizning natijangiz Telegram orqali yuborildi.</p>
+        <h1 id="final-score" style="color: var(--primary); font-size: 55px; margin: 10px 0;">0</h1>
+        <p id="final-rank" style="font-size: 18px; margin-bottom: 20px;"></p>
+        <button onclick="location.reload()" style="width: 100%">Boshiga qaytish</button>
     </div>
 </div>
 
@@ -81,7 +84,7 @@
         {q: "Payg'ambarimiz (s.a.v.)ning bobolarining ismi nima?", a: ["Hoshim", "Abdumanaf", "Abdulmutallib", "Abu Tolib"], c: 2},
         {q: "Muhammad (s.a.v.) qaysi yilda tug'ilganlar?", a: ["Ot yili", "Fil yili", "Quyon yili", "Tuya yili"], c: 1},
         {q: "Abdulloh (Payg'ambarimizning otalari) qayerda vafot etgan?", a: ["Madinada", "Makkada", "Shomda", "Misrda"], c: 0},
-        {q: "Payg'ambarimiz tug'ilganlarida qaysi saroyning ustunlari qulab tushgan?", a: ["Rim saroyi", "Fors kisrosi", "Misr saroyi", "Habashiston"], c: 1},
+        {q: "Payg'ambarimiz tug'ilganlarida qaysi saroyning ustunlari qulab tushgan?", a: ["Rim saroyi", "Fors kisrosi saroyi", "Misr saroyi", "Habashiston"], c: 1},
         {q: "Muhammad ismining ma'nosi nima?", a: ["Go'zal", "Kuchli", "Maqtovga loyiq", "Ishonchli"], c: 2},
         {q: "Payg'ambarimizni emizgan birinchi ayol kim?", a: ["Suvayba", "Halima", "Omina", "Baraka"], c: 0},
         {q: "Banu Sa'd qabilasidan bo'lgan mashhur sut onalari kim?", a: ["Shifo", "Omina", "Halima", "Fotima"], c: 2},
@@ -134,7 +137,7 @@
         {q: "Onalari Omina necha yoshida vafot etgan?", a: ["20", "30", "40", "50"], c: 1},
         {q: "Fijor urushida u zot nima qilganlar?", a: ["O'q uzgan", "Amakilariga o'q uzatgan", "Urushmagan", "Qo'mondon bo'lgan"], c: 1},
         {q: "Muhammad (s.a.v.) 8 yoshida kimning uyiga ko'chdi?", a: ["Abu Lahab", "Abu Tolib", "Abbos", "Hamza"], c: 1},
-        {q: "Bahiro qaysi shaharda u zotni ko'rgan?", a: ["Damashq", "Busro", "Amman", "Makka"], c: 1},
+        {q: "Bahiro rohib qaysi shaharda u zotni ko'rgan?", a: ["Damashq", "Busro", "Amman", "Makka"], c: 1},
         {q: "Payg'ambarimiz necha yoshlarida bobosi vafot etdi?", a: ["6", "8", "10", "12"], c: 1},
         {q: "Abdulmutallib Zamzamni topganda nima qurbonlik qilmoqchi bo'lgan?", a: ["Tuya", "Qo'y", "O'g'li Abdullohni", "Sigir"], c: 2},
         {q: "Muhammad (s.a.v.) necha yoshida yurishni o'rganganlar?", a: ["6 oylikda", "9 oylikda", "1 yoshda", "2 yoshda"], c: 1},
@@ -176,24 +179,34 @@
 
     let currentIdx = 0, score = 0, uName = "", uClass = "";
 
+    // BOT MA'LUMOTLARINI SHU YERGA YOZING:
+    const TELEGRAM_TOKEN = "8689514408:AAE-pPgmmBVvXuPtQlekY154d_E7DYmY2Ws";
+    const TELEGRAM_CHAT_ID = "1944101143";
+
     function startQuiz() {
         uName = document.getElementById('username').value.trim();
         uClass = document.getElementById('userclass').value.trim();
-        if(!uName || !uClass) { alert("Ism va sinfni yozing!"); return; }
+        if(!uName || !uClass) { alert("Ism va sinfingizni yozing!"); return; }
+
         document.getElementById('auth-box').classList.add('hidden');
         document.getElementById('quiz-container').classList.remove('hidden');
         document.getElementById('u-info').innerText = uName + " (" + uClass + ")";
+        
         updateTable();
         showQuestion();
     }
 
     function showQuestion() {
         if(currentIdx >= questions.length) { finishQuiz(); return; }
+        
         let q = questions[currentIdx];
         document.getElementById('q-progress').innerText = (currentIdx + 1) + " / " + questions.length;
         document.getElementById('q-text').innerText = q.q;
+        
         let btns = "";
-        q.a.forEach((opt, i) => { btns += `<div class="option" onclick="next(${i})">${opt}</div>`; });
+        q.a.forEach((opt, i) => {
+            btns += `<div class="option" onclick="next(${i})">${opt}</div>`;
+        });
         document.getElementById('options-box').innerHTML = btns;
     }
 
@@ -204,7 +217,7 @@
     }
 
     function updateTable() {
-        let db = JSON.parse(localStorage.getItem('quiz_db_100') || "[]");
+        let db = JSON.parse(localStorage.getItem('quiz_db_final') || "[]");
         let tbody = document.querySelector("#score-table tbody");
         tbody.innerHTML = "";
         db.sort((a, b) => b.score - a.score);
@@ -216,14 +229,24 @@
     function finishQuiz() {
         document.getElementById('quiz-container').classList.add('hidden');
         document.getElementById('result-box').classList.remove('hidden');
+        
         let p = ((score / questions.length) * 100).toFixed(1);
         document.getElementById('final-score').innerText = score;
-        let db = JSON.parse(localStorage.getItem('quiz_db_100') || "[]");
+
+        // Xabar matni
+        const text = `🏆 *YANGI NATIJA* 🏆%0A%0A👤 *Ism:* ${uName}%0A🏫 *Sinf:* ${uClass}%0A🎯 *Ball:* ${score} / ${questions.length}%0A📊 *Foiz:* ${p}%`;
+        
+        // Telegramga yuborish
+        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${text}&parse_mode=markdown`);
+
+        // LocalStorage ga saqlash
+        let db = JSON.parse(localStorage.getItem('quiz_db_final') || "[]");
         db.push({name: uName, class: uClass, score: score, percent: p});
-        localStorage.setItem('quiz_db_100', JSON.stringify(db));
+        localStorage.setItem('quiz_db_final', JSON.stringify(db));
+
         db.sort((a, b) => b.score - a.score);
         let rank = db.findIndex(u => u.name === uName && u.score === score) + 1;
-        document.getElementById('final-rank').innerHTML = `Siz ${questions.length} tadan <b>${score}</b> ta to'g'ri topdingiz.<br>Jadvalda <b>${rank}-o'rindasiz</b>.`;
+        document.getElementById('final-rank').innerHTML = `Jami savollar: ${questions.length}<br>To'g'ri javoblar: <b>${score}</b><br>Hozirgi reytingingiz: <b>${rank}-o'rin</b>`;
     }
 </script>
 </body>
